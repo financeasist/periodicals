@@ -13,22 +13,20 @@ import com.periodicals.util.ConnectionUtil;
 
 public class UserDaoImpl implements UserDao {
 	final static String CREATE_USER = "insert into user (`email`,`password`,`firstName`,`lastName`,`role`,`isbanned`)values(?,?,?,?,?,?);";
-	final static String GET_USER_BYID = "select * from user where id=?;";
-	final static String GET_USER_BYEMAIL = "select * from user where email=?;";
+	final static String GET_USER_BY_ID = "select * from user where id=?;";
+	final static String GET_USER_BY_EMAIL = "select * from user where email=?;";
 	final static String GET_ALL_USERS = "select * from user; ";
-	final static String UPDATE_USER_BYID = " update user set email =?, password = ?,role=?, isbanned=? where id=?; ";
-	final static String UPDATE_EMAILANDPASSWORD_BYID = " update user set email =?, password = ? where id=?; ";
-	final static String UPDATE_FIRSTNAME_BYEMAIL = " update user set firstName=? where email=?; ";
-	final static String UPDATE_LASTNAME_BYEMAIL = " update user set lastName=? where email=?; ";
-	final static String UPDATE_ROLE_BYEMAIL = " update user set role=? where email=?; ";
-	final static String UPDATE_ISBANED_BYEMAIL = " update user set isbanned=? where email=?; ";
-	final static String DELETE_BYEMAIL = " delete  from user where email=?;";
-	final static String GET_USERID_BYEMAIL = " select id  from user where email=?;";
-	final static String UPDATE_USER_BYEMAIL = " update user set password = ?,role=?, isbanned=? where email=?; ";
+	final static String UPDATE_USER_BY_ID = " update user set email =?, password = ?,role=?, isbanned=? where id=?; ";
+	final static String UPDATE_EMAIL_AND_PASSWORD_BY_ID = " update user set email =?, password = ? where id=?; ";
+	final static String UPDATE_FIRSTNAME_BY_EMAIL = " update user set firstName=? where email=?; ";
+	final static String UPDATE_LASTNAME_BY_EMAIL = " update user set lastName=? where email=?; ";
+	final static String UPDATE_ROLE_BY_EMAIL = " update user set role=? where email=?; ";
+	final static String UPDATE_ISBANED_BY_EMAIL = " update user set isbanned=? where email=?; ";
+	final static String DELETE_BY_EMAIL = " delete  from user where email=?;";
+	final static String GET_USER_ID_BY_EMAIL = " select id  from user where email=?;";
+	final static String UPDATE_USER_BY_EMAIL = " update user set password = ?,role=?, isbanned=? where email=?; ";
 
-	public UserDaoImpl() {
-	}
-
+	
 	public void create(User t) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
 		System.out.println("Connection succsessfull!");
@@ -64,14 +62,14 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
-	public User getByID(int id) {
+	public User getById(int id) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
 		System.out.println("Connection succsessfull!");
 		PreparedStatement statement = null;
 
 		User user = new User();
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(GET_USER_BYID);
+			statement = (PreparedStatement) connection.prepareStatement(GET_USER_BY_ID);
 			statement.setInt(1, id);
 			ResultSet resSet = statement.executeQuery();
 			resSet.next();
@@ -105,7 +103,7 @@ public class UserDaoImpl implements UserDao {
 
 		User user = new User();
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(GET_USER_BYEMAIL);
+			statement = (PreparedStatement) connection.prepareStatement(GET_USER_BY_EMAIL);
 			statement.setString(1, email);
 			ResultSet resSet = statement.executeQuery();
 			resSet.next();
@@ -168,13 +166,13 @@ public class UserDaoImpl implements UserDao {
 		return list;
 	}
 
-	public void updateAllFieldsUserByID(User user, Integer id) {
+	public void updateAllFieldsUserById(User user, Integer id) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
 		System.out.println("Connection succsessfull!");
 		PreparedStatement statement = null;
 
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(UPDATE_USER_BYID);
+			statement = (PreparedStatement) connection.prepareStatement(UPDATE_USER_BY_ID);
 
 			statement.setString(1, user.getEmail());
 			statement.setString(2, user.getPassword());
@@ -204,12 +202,12 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
-	public void updateEmailANDPasswordByID(User user, Integer id) {
+	public void updateEmailAndPasswordById(User user, Integer id) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
 		System.out.println("Connection succsessfull!");
 		PreparedStatement statement = null;
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(UPDATE_EMAILANDPASSWORD_BYID);
+			statement = (PreparedStatement) connection.prepareStatement(UPDATE_EMAIL_AND_PASSWORD_BY_ID);
 
 			statement.setString(1, user.getEmail());
 			statement.setString(2, user.getPassword());
@@ -242,7 +240,7 @@ public class UserDaoImpl implements UserDao {
 		PreparedStatement statement = null;
 
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(UPDATE_FIRSTNAME_BYEMAIL);
+			statement = (PreparedStatement) connection.prepareStatement(UPDATE_FIRSTNAME_BY_EMAIL);
 			statement.setString(1, firstName);
 			statement.setString(2, email);
 
@@ -272,7 +270,7 @@ public class UserDaoImpl implements UserDao {
 		PreparedStatement statement = null;
 
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(UPDATE_LASTNAME_BYEMAIL);
+			statement = (PreparedStatement) connection.prepareStatement(UPDATE_LASTNAME_BY_EMAIL);
 			statement.setString(1, lastName);
 
 			statement.setString(2, email);
@@ -303,7 +301,7 @@ public class UserDaoImpl implements UserDao {
 		PreparedStatement statement = null;
 
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(UPDATE_ROLE_BYEMAIL);
+			statement = (PreparedStatement) connection.prepareStatement(UPDATE_ROLE_BY_EMAIL);
 			statement.setString(1, role);
 			statement.setString(2, email);
 
@@ -336,7 +334,7 @@ public class UserDaoImpl implements UserDao {
 		PreparedStatement statement = null;
 
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(UPDATE_ISBANED_BYEMAIL);
+			statement = (PreparedStatement) connection.prepareStatement(UPDATE_ISBANED_BY_EMAIL);
 			statement.setBoolean(1, isBaned);
 			statement.setString(2, email);
 
@@ -399,7 +397,7 @@ public class UserDaoImpl implements UserDao {
 		PreparedStatement statement = null;
 
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(DELETE_BYEMAIL);
+			statement = (PreparedStatement) connection.prepareStatement(DELETE_BY_EMAIL);
 			statement.setString(1, email);
 
 			statement.executeUpdate();
@@ -428,7 +426,7 @@ public class UserDaoImpl implements UserDao {
 		PreparedStatement statement = null;
 		User user = new User();
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(GET_USERID_BYEMAIL);
+			statement = (PreparedStatement) connection.prepareStatement(GET_USER_ID_BY_EMAIL);
 			statement.setString(1, email);
 			
 			ResultSet resSet = statement.executeQuery();
@@ -455,12 +453,12 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
-	public void updateByOnefield(User user) {
+	public void updateByOneField(User user) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
 		System.out.println("Connection succsessfull!");
 		PreparedStatement statement = null;
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(UPDATE_USER_BYEMAIL);
+			statement = (PreparedStatement) connection.prepareStatement(UPDATE_USER_BY_EMAIL);
 			statement.setString(1, user.getPassword());
 			statement.setString(2, user.getRoleString());
 			statement.setBoolean(3, user.getIsBaned());

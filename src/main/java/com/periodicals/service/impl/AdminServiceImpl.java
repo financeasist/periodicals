@@ -1,5 +1,7 @@
 package com.periodicals.service.impl;
 
+import java.sql.SQLException;
+
 import com.periodicals.dao.PeriodicalDao;
 import com.periodicals.dao.UserDao;
 import com.periodicals.dao.impl.PeriodicalDaoImpl;
@@ -14,18 +16,33 @@ public class AdminServiceImpl implements AdminService {
 
 	
 	public void addPeriodical(Periodical periodical) {
-		periodicalDao.create(periodical);
+		try {
+			periodicalDao.create(periodical);
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+		}
 
 	}
 
 	public void updatePeriodical(Periodical periodical) {
-		periodicalDao.updateByOnefield(periodical);
+		try {
+			periodicalDao.updateByOneField(periodical);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
 		
 
 	}
 
 	public void deletePeriodical(Periodical periodical) {
-		periodicalDao.delete(periodical);
+		try {
+			periodicalDao.delete(periodical);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
 
 	}
 

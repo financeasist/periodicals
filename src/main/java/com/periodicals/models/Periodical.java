@@ -8,24 +8,25 @@ public class Periodical extends Model {
 	private Boolean isAdded;
 	private Boolean isPaided;
 
-	public Periodical() {
-		super();
-	}
-	public Periodical(Integer id) {
-		super(id);
-	}
-
-
-	
-
-	public Periodical(String title, Double price, String discription, Boolean isAdded, Boolean isPaided) {
-		super();
-		this.title = title;
-		this.price = price;
-		this.discription = discription;
-		this.isAdded = isAdded;
-		this.isPaided = isPaided;
-	}
+	// public Periodical() {
+	// super();
+	// }
+	// public Periodical(Integer id) {
+	// super(id);
+	// }
+	//
+	//
+	//
+	//
+	// public Periodical(String title, Double price, String discription, Boolean
+	// isAdded, Boolean isPaided) {
+	// super();
+	// this.title = title;
+	// this.price = price;
+	// this.discription = discription;
+	// this.isAdded = isAdded;
+	// this.isPaided = isPaided;
+	// }
 	public Boolean getIsAdded() {
 		return isAdded;
 	}
@@ -68,10 +69,8 @@ public class Periodical extends Model {
 
 	@Override
 	public String toString() {
-		return "Periodical [title= '" + title + "', price= '" + price + "', discription= '" + discription + "', isAdded= '"
-				+ isAdded + "', isPaided= '" + isPaided + "']"+"\n";
+		return "Periodical [title=" + title + ", price=" + price + ", discription=" + discription + ", isAdded="
+				+ isAdded + ", isPaided=" + isPaided + "]";
 	}
-
-	
 
 }

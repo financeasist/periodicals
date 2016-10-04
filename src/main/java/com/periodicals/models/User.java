@@ -7,9 +7,9 @@ public class User extends Model {
 	private String password;
 	private String firstName;
 	private String lastName;
-	private Roles role ;
+	private Roles role;
 	private Boolean isBanned;
-	
+
 	public User() {
 		super();
 	}
@@ -19,7 +19,7 @@ public class User extends Model {
 	}
 
 	public User(String email, String password, String firstName, String lastName, Roles role, Boolean isBaned) {
-		
+
 		this.email = email;
 		this.password = password;
 		this.firstName = firstName;
@@ -59,24 +59,24 @@ public class User extends Model {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
 	public String getRoleString() {
 		return role.toString();
 	}
-	
+
 	public Roles getRole() {
 		return role;
 	}
 
 	public Roles setRole(String role) {
-	   if (role != null) {
-		      for (Roles b : Roles.values()) {
-		        if (role.equalsIgnoreCase(b.name())) {
-		          return b;
-		        }
-		      }
-		    }
-		    return null;
-		
+		if (role != null) {
+			for (Roles b : Roles.values()) {
+				if (role.equalsIgnoreCase(b.name())) {
+					return b;
+				}
+			}
+		}
+		return null;
 	}
 
 	public Boolean getIsBaned() {

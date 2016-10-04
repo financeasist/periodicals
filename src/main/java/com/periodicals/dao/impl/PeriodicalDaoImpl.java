@@ -12,26 +12,24 @@ import com.periodicals.models.Periodical;
 import com.periodicals.util.ConnectionUtil;
 
 public class PeriodicalDaoImpl implements PeriodicalDao {
-	final static String GET_PERIODICAL_BYID = "select * from periodical where id=?;";
+	final static String GET_PERIODICAL_BY_ID = "select * from periodical where id=?;";
 	final static String GET_ALL_PERIODICALS = "select * from periodical; ";
-	final static String UPDATE_PERIODICAL_BYTITLE = " update periodical set price = ?,isAdded= ?, isPaided=?,discription= ? where title=?; ";
+	final static String UPDATE_PERIODICAL_BY_TITLE = " update periodical set price = ?,isAdded= ?, isPaided=?,discription= ? where title=?; ";
 	final static String CREATE_PERIODICAL = "insert into periodical (`title`,`price`,`discription`,`isAdded`,`isPaided`)values(?, ?,?,?,?);";
-	final static String DELETE_PERIODICAL_BYTITLE = " delete  from periodical where title=?;";
-	final static String GET_ID_BYTITLE = " select id  from periodical where title=?;";
-	final static String GET_PERIODICAL_BYTITLE = "select * from periodical where title=?;";
+	final static String DELETE_PERIODICAL_BY_TITLE = " delete  from periodical where title=?;";
+	final static String GET_ID_BY_TITLE = " select id  from periodical where title=?;";
+	final static String GET_PERIODICAL_BY_TITLE = "select * from periodical where title=?;";
 
-	public PeriodicalDaoImpl() {
-	}
-
-	public Periodical getByID(int id) {
+	public Periodical getById(int id) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
 		System.out.println("Connection succsessfull!");
 		PreparedStatement statement = null;
 		Periodical periodical = null;
+		ResultSet resSet = null;
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(GET_PERIODICAL_BYID);
+			statement = (PreparedStatement) connection.prepareStatement(GET_PERIODICAL_BY_ID);
 			statement.setInt(1, id);
-			ResultSet resSet = statement.executeQuery();
+			resSet = statement.executeQuery();
 			resSet.next();
 			periodical = new Periodical();
 			periodical.setId(resSet.getInt("id"));
@@ -44,6 +42,8 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 			e.printStackTrace();
 		} finally {
 			try {
+				if (resSet != null)
+					resSet.close();
 				statement.close();
 				connection.close();
 				System.out.println("Connection is closed!");
@@ -59,9 +59,10 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 		System.out.println("Connection succsessfull!");
 		PreparedStatement statement = null;
 		List<Periodical> list = new ArrayList<Periodical>();
+		ResultSet resSet = null;
 		try {
 			statement = (PreparedStatement) connection.prepareStatement(GET_ALL_PERIODICALS);
-			ResultSet resSet = statement.executeQuery();
+			resSet = statement.executeQuery();
 			while (resSet.next()) {
 				Periodical periodical = new Periodical();
 				periodical.setId(resSet.getInt("id"));
@@ -76,6 +77,8 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 			e.printStackTrace();
 		} finally {
 			try {
+				if (resSet != null)
+					resSet.close();
 				statement.close();
 				connection.close();
 				System.out.println("Connection is closed!");
@@ -86,12 +89,12 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 		return list;
 	}
 
-	public void updateByOnefield(Periodical periodical) {
+	public void updateByOneField(Periodical periodical) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
 		System.out.println("Connection succsessfull!");
 		PreparedStatement statement = null;
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(UPDATE_PERIODICAL_BYTITLE);
+			statement = (PreparedStatement) connection.prepareStatement(UPDATE_PERIODICAL_BY_TITLE);
 			statement.setDouble(1, periodical.getPrice());
 			statement.setBoolean(2, periodical.getIsAdded());
 			statement.setBoolean(3, periodical.getIsPaided());
@@ -155,7 +158,7 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 
 		PreparedStatement statement = null;
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(DELETE_PERIODICAL_BYTITLE);
+			statement = (PreparedStatement) connection.prepareStatement(DELETE_PERIODICAL_BY_TITLE);
 			statement.setString(1, title);
 			statement.executeUpdate();
 			System.out.println("All periodicals with title= '" + title + "' was deleted!");
@@ -169,9 +172,7 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-
 		}
-
 	}
 
 	public void delete(Periodical periodical) {
@@ -179,7 +180,7 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 		System.out.println("Connection succsessfull!");
 		PreparedStatement statement = null;
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(DELETE_PERIODICAL_BYTITLE);
+			statement = (PreparedStatement) connection.prepareStatement(DELETE_PERIODICAL_BY_TITLE);
 			statement.setString(1, periodical.getTitle());
 			statement.executeUpdate();
 			System.out.println("All periodicals with title= '" + periodical.getTitle() + "' was deleted!");
@@ -202,11 +203,11 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 		System.out.println("Connection succsessfull!");
 		PreparedStatement statement = null;
 		Periodical periodical = new Periodical();
+		ResultSet resSet = null;
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(GET_ID_BYTITLE);
+			statement = (PreparedStatement) connection.prepareStatement(GET_ID_BY_TITLE);
 			statement.setString(1, title);
-
-			ResultSet resSet = statement.executeQuery();
+			resSet = statement.executeQuery();
 			resSet.next();
 			periodical.setId(resSet.getInt("id"));
 			periodical.setTitle(title);
@@ -215,10 +216,10 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally
-
-		{
+		} finally {
 			try {
+				if (resSet != null)
+					resSet.close();
 				statement.close();
 				connection.close();
 				System.out.println("Connection is closed!");
@@ -236,10 +237,11 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 		System.out.println("Connection succsessfull!");
 		PreparedStatement statement = null;
 		Periodical periodical = null;
+		ResultSet resSet = null;
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(GET_PERIODICAL_BYTITLE);
+			statement = (PreparedStatement) connection.prepareStatement(GET_PERIODICAL_BY_TITLE);
 			statement.setString(1, title);
-			ResultSet resSet = statement.executeQuery();
+			resSet = statement.executeQuery();
 			resSet.next();
 			periodical = new Periodical();
 			periodical.setId(resSet.getInt("id"));
@@ -253,6 +255,8 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 			e.printStackTrace();
 		} finally {
 			try {
+				if (resSet != null)
+					resSet.close();
 				statement.close();
 				connection.close();
 				System.out.println("Connection is closed!");

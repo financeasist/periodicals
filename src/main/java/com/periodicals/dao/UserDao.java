@@ -8,8 +8,8 @@ public interface UserDao extends ItemDao<User>{
 	
 	public Integer getIdByEmail(String mail);
 	public User getByEmail(String email) throws SQLException;
-	public void updateAllFieldsUserByID(User user, Integer id);
-	public void updateEmailANDPasswordByID(User user, Integer id);
+	public void updateAllFieldsUserById(User user, Integer id);
+	public void updateEmailAndPasswordById(User user, Integer id);
 	public void updateFirstNameByEmail(String firstName, String email);
 	public void updateLastNameByEmail(String lastName, String email);
 	public void updateRoleByEmail(String role, String email);

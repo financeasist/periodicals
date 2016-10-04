@@ -1,4 +1,4 @@
-package com.periodicals.applications;
+package com.periodicals.test;
 
 import java.sql.SQLException;
 
@@ -11,7 +11,7 @@ public class MainForUser {
 	public static void main(String[] args) throws SQLException {
 	
 	UserDaoImpl userDao = new UserDaoImpl();
-	User user = new User("sadhfj@vcb.kom","hgfdfgh","Roman","null",Roles.GUEST,false);
+	User user = new User("sadhfp@vcb.kom","hgfdfgh","Roman","null",Roles.GUEST,false);
 	userDao.create(user);
 //	userDao.deleteByEmail("sadhfj@vbcb.kom");
 	

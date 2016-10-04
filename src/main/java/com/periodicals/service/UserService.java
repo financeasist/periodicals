@@ -8,7 +8,7 @@ public interface UserService {
 
 	public List<Periodical> getAllPeriodicals();
 	public void addToBucket();
-	public void Paid();
+	public void Pay();
 	public void removeFromBucket();
 }
 

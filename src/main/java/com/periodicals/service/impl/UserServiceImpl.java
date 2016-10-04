@@ -30,22 +30,45 @@ public class UserServiceImpl implements UserService {
 	}
 
 
+	public void addToBucket(Integer periodicalId, Integer UserID) {
+				//createBucket()
+	}
+
+	
+	public void Pay(Integer periodicalId, Integer UserID) {
+		//setISPaid()// TODO Auto-generated method stub
+		
+	}
+
+	
+	public void removeFromBucket(Integer periodicalId, Integer UserID) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 	public void addToBucket() {
 		// TODO Auto-generated method stub
 		
 	}
 
-	
-	public void Paid() {
+
+	public void Pay() {
 		// TODO Auto-generated method stub
 		
 	}
 
-	
+
 	public void removeFromBucket() {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+	
+
+
+	
 
 	
 }

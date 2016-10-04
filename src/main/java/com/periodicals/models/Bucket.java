@@ -6,6 +6,7 @@ public class Bucket extends Model {
 
 	private Integer user_id;
 	private Integer periodical_id;
+	boolean IsPaid;
 	private Timestamp data;
 
 	public Bucket() {

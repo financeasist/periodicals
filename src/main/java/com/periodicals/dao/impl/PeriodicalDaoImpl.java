@@ -12,6 +12,13 @@ import com.periodicals.models.Periodical;
 import com.periodicals.util.ConnectionUtil;
 
 public class PeriodicalDaoImpl implements PeriodicalDao {
+	final static String GET_PERIODICAL_BYID = "select * from periodical where id=?;";
+	final static String GET_ALL_PERIODICALS = "select * from periodical; ";
+	final static String UPDATE_PERIODICAL_BYTITLE = " update periodical set price = ?,isAdded= ?, isPaided=?,discription= ? where title=?; ";
+	final static String CREATE_PERIODICAL = "insert into periodical (`title`,`price`,`discription`,`isAdded`,`isPaided`)values(?, ?,?,?,?);";
+	final static String DELETE_PERIODICAL_BYTITLE = " delete  from periodical where title=?;";
+	final static String GET_ID_BYTITLE = " select id  from periodical where title=?;";
+	final static String GET_PERIODICAL_BYTITLE = "select * from periodical where title=?;";
 
 	public PeriodicalDaoImpl() {
 	}
@@ -19,11 +26,10 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 	public Periodical getByID(int id) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
 		System.out.println("Connection succsessfull!");
-		String sql = "select * from periodical where id=?;";
 		PreparedStatement statement = null;
 		Periodical periodical = null;
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(sql);
+			statement = (PreparedStatement) connection.prepareStatement(GET_PERIODICAL_BYID);
 			statement.setInt(1, id);
 			ResultSet resSet = statement.executeQuery();
 			resSet.next();
@@ -34,7 +40,6 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 			periodical.setDiscription(resSet.getString("discription"));
 			periodical.setIsAdded(resSet.getBoolean("isadded"));
 			periodical.setIsPaided(resSet.getBoolean("ispaided"));
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -43,24 +48,19 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 				connection.close();
 				System.out.println("Connection is closed!");
 			} catch (SQLException e) {
-
 				e.printStackTrace();
 			}
 		}
 		return periodical;
-
 	}
 
-	
 	public List<Periodical> getAll() {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
 		System.out.println("Connection succsessfull!");
-		String sql = "select * from periodical; ";
 		PreparedStatement statement = null;
 		List<Periodical> list = new ArrayList<Periodical>();
-
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(sql);
+			statement = (PreparedStatement) connection.prepareStatement(GET_ALL_PERIODICALS);
 			ResultSet resSet = statement.executeQuery();
 			while (resSet.next()) {
 				Periodical periodical = new Periodical();
@@ -80,22 +80,18 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 				connection.close();
 				System.out.println("Connection is closed!");
 			} catch (SQLException e) {
-
 				e.printStackTrace();
 			}
 		}
 		return list;
 	}
 
-	
 	public void updateByOnefield(Periodical periodical) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
 		System.out.println("Connection succsessfull!");
-		String sql = " update periodical set price = ?,isAdded= ?, isPaided=?,discription= ? where title=?; ";
 		PreparedStatement statement = null;
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(sql);
-
+			statement = (PreparedStatement) connection.prepareStatement(UPDATE_PERIODICAL_BYTITLE);
 			statement.setDouble(1, periodical.getPrice());
 			statement.setBoolean(2, periodical.getIsAdded());
 			statement.setBoolean(3, periodical.getIsPaided());
@@ -118,17 +114,15 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
-	
 	public void create(Periodical periodical) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
 		System.out.println("Connection succsessfull!");
 		PreparedStatement statement = null;
-		String sql = "insert into periodical (`title`,`price`,`discription`,`isAdded`,`isPaided`)values(?, ?,?,?,?);";
+
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(sql);
+			statement = (PreparedStatement) connection.prepareStatement(CREATE_PERIODICAL);
 			statement.setString(1, periodical.getTitle());
 			statement.setDouble(2, periodical.getPrice());
 			statement.setString(3, periodical.getDiscription());
@@ -153,16 +147,15 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 	public void deleteByTitle(String title) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
 		System.out.println("Connection succsessfull!");
-		String sql = " delete  from periodical where title=?;";
+
 		PreparedStatement statement = null;
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(sql);
+			statement = (PreparedStatement) connection.prepareStatement(DELETE_PERIODICAL_BYTITLE);
 			statement.setString(1, title);
 			statement.executeUpdate();
 			System.out.println("All periodicals with title= '" + title + "' was deleted!");
@@ -181,14 +174,12 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 
 	}
 
-	
 	public void delete(Periodical periodical) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
 		System.out.println("Connection succsessfull!");
-		String sql = " delete  from periodical where title=?;";
 		PreparedStatement statement = null;
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(sql);
+			statement = (PreparedStatement) connection.prepareStatement(DELETE_PERIODICAL_BYTITLE);
 			statement.setString(1, periodical.getTitle());
 			statement.executeUpdate();
 			System.out.println("All periodicals with title= '" + periodical.getTitle() + "' was deleted!");
@@ -206,19 +197,19 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 		}
 	}
 
-	
-	public Integer getIdByTitle(Periodical periodical) {
+	public Integer getIdByTitle(String title) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
 		System.out.println("Connection succsessfull!");
 		PreparedStatement statement = null;
-		String sql = " select id  from periodical where title=?;";
+		Periodical periodical = new Periodical();
 		try {
-			statement = (PreparedStatement) connection.prepareStatement(sql);
-			statement.setString(1, periodical.getTitle());
+			statement = (PreparedStatement) connection.prepareStatement(GET_ID_BYTITLE);
+			statement.setString(1, title);
 
 			ResultSet resSet = statement.executeQuery();
 			resSet.next();
 			periodical.setId(resSet.getInt("id"));
+			periodical.setTitle(title);
 			System.out
 					.println("User with email= '" + periodical.getTitle() + "' has id= '" + periodical.getId() + "';");
 
@@ -240,16 +231,13 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 
 	}
 
-	
 	public Periodical getPeriodicalByTitle(String title) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
 		System.out.println("Connection succsessfull!");
-		String sql = "select * from periodical where title=?;";
 		PreparedStatement statement = null;
 		Periodical periodical = null;
 		try {
-			
-			statement = (PreparedStatement) connection.prepareStatement(sql);
+			statement = (PreparedStatement) connection.prepareStatement(GET_PERIODICAL_BYTITLE);
 			statement.setString(1, title);
 			ResultSet resSet = statement.executeQuery();
 			resSet.next();
@@ -275,5 +263,4 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 		}
 		return periodical;
 	}
-
 }

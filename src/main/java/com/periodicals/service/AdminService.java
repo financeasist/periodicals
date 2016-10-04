@@ -1,7 +1,6 @@
 package com.periodicals.service;
 
 import com.periodicals.models.Periodical;
-import com.periodicals.models.User;
 
 public interface AdminService {
 	public void addPeriodical(Periodical periodical);
@@ -10,6 +9,6 @@ public interface AdminService {
 
 	public void deletePeriodical(Periodical pperiodical);
 
-	public void setIsBanned(User user);
+	public void setIsBanned(Boolean isBaned,String email);
 
 }

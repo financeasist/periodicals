@@ -5,7 +5,6 @@ import com.periodicals.dao.UserDao;
 import com.periodicals.dao.impl.PeriodicalDaoImpl;
 import com.periodicals.dao.impl.UserDaoImpl;
 import com.periodicals.models.Periodical;
-import com.periodicals.models.User;
 import com.periodicals.service.AdminService;
 
 public class AdminServiceImpl implements AdminService {
@@ -30,9 +29,11 @@ public class AdminServiceImpl implements AdminService {
 
 	}
 
-	public void setIsBanned(User user ) {
-		userDao.update_IsBanned_ByEmail(user);
+	public void setIsBanned(Boolean isBaned,String email ) {
+		userDao.updateIsBannedByEmail(isBaned, email);
 	}
+
+	
 
 	
 

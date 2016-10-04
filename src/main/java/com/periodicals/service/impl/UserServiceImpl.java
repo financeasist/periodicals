@@ -1,6 +1,7 @@
 package com.periodicals.service.impl;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 
 import com.periodicals.dao.BucketDao;
@@ -15,7 +16,7 @@ import com.periodicals.service.UserService;
 public class UserServiceImpl implements UserService {
 	UserDao userDao = new UserDaoImpl();
 	PeriodicalDao periodicalDao= new PeriodicalDaoImpl();
-	BucketDao buckedDao = new BucketDaoImpl();
+	BucketDao bucketDao = new BucketDaoImpl();
 
 	
 	public List<Periodical> getAllPeriodicals() {
@@ -30,13 +31,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 
-	public void addToBucket(Integer periodicalId, Integer UserID) {
-				//createBucket()
+	public void addToBucket(Integer periodicalId, Integer UserID, Timestamp date) {
+		 bucketDao.create(periodicalId,UserID,date); 	//createBucket()
 	}
 
 	
-	public void Pay(Integer periodicalId, Integer UserID) {
-		//setISPaid()// TODO Auto-generated method stub
+	public void Pay(Integer bucketID) {
+		bucketDao.setIsPaiedTrue(bucketID); //setISPaid='true'
 		
 	}
 
@@ -47,22 +48,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 
-	public void addToBucket() {
-		// TODO Auto-generated method stub
-		
-	}
 
 
-	public void Pay() {
-		// TODO Auto-generated method stub
-		
-	}
+
+	
 
 
-	public void removeFromBucket() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 
 	

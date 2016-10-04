@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class BucketDaoImpl implements BucketDao {
 	final static String DELETE_BUCKET_BYID = " delete  from bucket where id=?;";
 	final static String CREATE_BUCKET = "insert into bucket (`user_id`,`periodical_id`,`data`)values(?,?,?);";
 	final static String UPDATE_BUCKET_BYID = " update bucket set user_id =?, periodic_id = ?,data=? where id=?; ";
+	final static String SET_ISPAID_TRUE_BYID = " update bucket set is_paid = 1, where id=?; ";
 
 	public BucketDaoImpl() {
 
@@ -116,21 +118,20 @@ public class BucketDaoImpl implements BucketDao {
 
 	}
 
-	public void create(Bucket bucket) {
+	public void create(Integer userID, Integer periodicalID, Timestamp date) {
 		Connection connection = ConnectionUtil.getConnection();
 		System.out.println("Connection succsessfull!");
 		PreparedStatement statement = null;
 
 		try {
 			statement = (PreparedStatement) connection.prepareStatement(CREATE_BUCKET);
-			statement.setInt(1, bucket.getUser_id());
-			statement.setInt(2, bucket.getPeriodical_id());
-			statement.setTimestamp(3, bucket.getData());
+			statement.setInt(1, userID);
+			statement.setInt(2, periodicalID);
+			statement.setTimestamp(3, date);
 
 			statement.execute();
-			System.out.println(" bucket with id ='" + bucket.getId() + "', user_id= '" + bucket.getUser_id()
-					+ "', periodical_id= '" + bucket.getPeriodical_id() + "',  operation date = '" + bucket.getData()
-					+ "' was created!");
+			System.out.println(" bucket with user_id= '" + userID + "', periodical_id= '" + periodicalID
+					+ "',  operation date = '" + date + "' was created!");
 		} catch (SQLException e) {
 
 			e.printStackTrace();
@@ -176,4 +177,33 @@ public class BucketDaoImpl implements BucketDao {
 
 	}
 
+	public void create(Bucket t) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void setIsPaiedTrue(Integer bucketID) {
+		Connection connection = ConnectionUtil.getConnection();
+		System.out.println("Connection succsessfull!");
+		PreparedStatement statement = null;
+		try {
+			statement = (PreparedStatement) connection.prepareStatement(SET_ISPAID_TRUE_BYID);
+			statement.setInt(1, bucketID);
+			statement.executeUpdate();
+			System.out.println(" buckets field 'ispaid' with id= '"+bucketID+"' was change on true!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+				connection.close();
+				System.out.println("Connection is closed!");
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
+
+	}
 }

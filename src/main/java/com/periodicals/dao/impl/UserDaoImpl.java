@@ -7,11 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.periodicals.dao.UserDao;
 import com.periodicals.models.User;
 import com.periodicals.util.ConnectionUtil;
 
 public class UserDaoImpl implements UserDao {
+	private final static Logger logger = Logger.getLogger(UserDaoImpl.class); 
 	final static String CREATE_USER = "insert into user (`email`,`password`,`firstName`,`lastName`,`role`,`isbanned`)values(?,?,?,?,?,?);";
 	final static String GET_USER_BY_ID = "select * from user where id=?;";
 	final static String GET_USER_BY_EMAIL = "select * from user where email=?;";
@@ -29,7 +32,7 @@ public class UserDaoImpl implements UserDao {
 	
 	public void create(User t) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 
 		try {
@@ -41,7 +44,7 @@ public class UserDaoImpl implements UserDao {
 			statement.setString(5, t.getRoleString());
 			statement.setBoolean(6, t.getIsBaned());
 			statement.execute();
-			System.out.println("User : " + "email= " + "'" + t.getEmail() + "'" + ", firstName= " + "'"
+			logger.info("User : " + "email= " + "'" + t.getEmail() + "'" + ", firstName= " + "'"
 					+ t.getFirstName() + "'" + ", lastName= " + "'" + t.getLastName() + "'" + ", role= " + "'"
 					+ t.getRole().toString() + "'" + ", isBanned= " + "'" + t.getIsBaned() + "' created!.");
 		} catch (SQLException e) {
@@ -53,7 +56,7 @@ public class UserDaoImpl implements UserDao {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 
 				e.printStackTrace();
@@ -64,7 +67,7 @@ public class UserDaoImpl implements UserDao {
 
 	public User getById(int id) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 
 		User user = new User();
@@ -87,7 +90,7 @@ public class UserDaoImpl implements UserDao {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 
 				e.printStackTrace();
@@ -96,11 +99,10 @@ public class UserDaoImpl implements UserDao {
 		return user;
 	}
 
-	public User getByEmail(String email) {
+	public User getUserByEmail(String email) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
-
 		User user = new User();
 		try {
 			statement = (PreparedStatement) connection.prepareStatement(GET_USER_BY_EMAIL);
@@ -121,7 +123,7 @@ public class UserDaoImpl implements UserDao {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 
 				e.printStackTrace();
@@ -132,7 +134,7 @@ public class UserDaoImpl implements UserDao {
 
 	public List<User> getAll() {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 
 		List<User> list = new ArrayList<User>();
@@ -157,7 +159,7 @@ public class UserDaoImpl implements UserDao {
 				if (statement != null)
 					statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 
 				e.printStackTrace();
@@ -168,7 +170,7 @@ public class UserDaoImpl implements UserDao {
 
 	public void updateAllFieldsUserById(User user, Integer id) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 
 		try {
@@ -180,7 +182,7 @@ public class UserDaoImpl implements UserDao {
 			statement.setBoolean(4, user.getIsBaned());
 			statement.setInt(5, id);
 			statement.executeUpdate();
-			System.out.println("users (id= " + "'" + id + "') fields was change! :" + "new email= '" + user.getEmail()
+			logger.info("users (id= " + "'" + id + "') fields was change! :" + "new email= '" + user.getEmail()
 					+ "'," + "new password= '" + user.getPassword() + "'," + " new role= '" + user.getRole() + "', "
 					+ "new isBaned= '" + user.getIsBaned() + "' ;");
 		} catch (SQLException e) {
@@ -192,7 +194,7 @@ public class UserDaoImpl implements UserDao {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 
 			} catch (SQLException e) {
 
@@ -204,7 +206,7 @@ public class UserDaoImpl implements UserDao {
 
 	public void updateEmailAndPasswordById(User user, Integer id) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 		try {
 			statement = (PreparedStatement) connection.prepareStatement(UPDATE_EMAIL_AND_PASSWORD_BY_ID);
@@ -213,7 +215,7 @@ public class UserDaoImpl implements UserDao {
 			statement.setString(2, user.getPassword());
 			statement.setInt(3, id);
 			statement.executeUpdate();
-			System.out.println("users (id= " + "'" + id + "') email and password was change! on:" + "new email= '"
+			logger.info("users (id= " + "'" + id + "') email and password was change! on:" + "new email= '"
 					+ user.getEmail() + "'," + "new password= '" + user.getPassword() + "';");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -224,7 +226,7 @@ public class UserDaoImpl implements UserDao {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 
 			} catch (SQLException e) {
 
@@ -236,7 +238,7 @@ public class UserDaoImpl implements UserDao {
 
 	public void updateFirstNameByEmail(String firstName, String email) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 
 		try {
@@ -245,7 +247,7 @@ public class UserDaoImpl implements UserDao {
 			statement.setString(2, email);
 
 			statement.executeUpdate();
-			System.out.println("users (with email= '" + email + "') firstName was change on: '" + firstName + "'! ");
+			logger.info("users (with email= '" + email + "') firstName was change on: '" + firstName + "'! ");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -254,7 +256,7 @@ public class UserDaoImpl implements UserDao {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 
 			} catch (SQLException e) {
 
@@ -266,7 +268,7 @@ public class UserDaoImpl implements UserDao {
 
 	public void updateLastNameByEmail(String lastName, String email) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 
 		try {
@@ -276,7 +278,7 @@ public class UserDaoImpl implements UserDao {
 			statement.setString(2, email);
 
 			statement.executeUpdate();
-			System.out.println("users (with email= '" + email + "') lastName was change on: '" + lastName + "'! ");
+			logger.info("users (with email= '" + email + "') lastName was change on: '" + lastName + "'! ");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -285,7 +287,7 @@ public class UserDaoImpl implements UserDao {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 
 			} catch (SQLException e) {
 
@@ -297,7 +299,7 @@ public class UserDaoImpl implements UserDao {
 
 	public void updateRoleByEmail(String role, String email) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 
 		try {
@@ -306,7 +308,7 @@ public class UserDaoImpl implements UserDao {
 			statement.setString(2, email);
 
 			statement.executeUpdate();
-			System.out.println("users (with email= " + "'" + email + "') role was change on '" + role + "'! ");
+			logger.info("users (with email= " + "'" + email + "') role was change on '" + role + "'! ");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -317,7 +319,7 @@ public class UserDaoImpl implements UserDao {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 
 			} catch (SQLException e) {
 
@@ -330,7 +332,7 @@ public class UserDaoImpl implements UserDao {
 	public void updateIsBannedByEmail(Boolean isBaned, String email) {
 
 		Connection connection = (Connection) ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 
 		try {
@@ -339,7 +341,7 @@ public class UserDaoImpl implements UserDao {
 			statement.setString(2, email);
 
 			statement.executeUpdate();
-			System.out.println("users (email= " + "'" + email + "') flag 'IsBanned' was change on '" + isBaned + "'! ");
+			logger.info("users (email= " + "'" + email + "') flag 'IsBanned' was change on '" + isBaned + "'! ");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -350,7 +352,7 @@ public class UserDaoImpl implements UserDao {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 
 			} catch (SQLException e) {
 
@@ -363,7 +365,7 @@ public class UserDaoImpl implements UserDao {
 	public void delete(User user) {
 
 		Connection connection = (Connection) ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 		String sql = " delete  from user where email=?;";
 		try {
@@ -371,7 +373,7 @@ public class UserDaoImpl implements UserDao {
 			statement.setString(1, user.getEmail());
 
 			statement.executeUpdate();
-			System.out.println("User :'" + user.getEmail() + "', '" + user.getFirstName() + "', '" + user.getLastName()
+			logger.info("User :'" + user.getEmail() + "', '" + user.getFirstName() + "', '" + user.getLastName()
 					+ "', role: '" + user.getRoleString() + "', isBaned: '" + user.getIsBaned() + "' was deleted!");
 
 		} catch (SQLException e) {
@@ -382,7 +384,7 @@ public class UserDaoImpl implements UserDao {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 
 				e.printStackTrace();
@@ -393,7 +395,7 @@ public class UserDaoImpl implements UserDao {
 
 	public void deleteByEmail(String email) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 
 		try {
@@ -401,7 +403,7 @@ public class UserDaoImpl implements UserDao {
 			statement.setString(1, email);
 
 			statement.executeUpdate();
-			System.out.println("User with email= '" + email + "' was deleted!");
+			logger.info("User with email= '" + email + "' was deleted!");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -411,7 +413,7 @@ public class UserDaoImpl implements UserDao {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 
 				e.printStackTrace();
@@ -422,7 +424,7 @@ public class UserDaoImpl implements UserDao {
 
 	public Integer getIdByEmail(String email) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 		User user = new User();
 		try {
@@ -433,7 +435,7 @@ public class UserDaoImpl implements UserDao {
 			resSet.next();
 			user.setId(resSet.getInt("id"));
 			user.setEmail(email);
-			System.out.println("User with email= '" + user.getEmail() + "' has id= '" + user.getId() + "';");
+			logger.info("User with email= '" + user.getEmail() + "' has id= '" + user.getId() + "';");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -443,7 +445,7 @@ public class UserDaoImpl implements UserDao {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 
 				e.printStackTrace();
@@ -455,7 +457,7 @@ public class UserDaoImpl implements UserDao {
 
 	public void updateByOneField(User user) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 		try {
 			statement = (PreparedStatement) connection.prepareStatement(UPDATE_USER_BY_EMAIL);
@@ -464,7 +466,7 @@ public class UserDaoImpl implements UserDao {
 			statement.setBoolean(3, user.getIsBaned());
 			statement.setString(4, user.getEmail());
 			statement.executeUpdate();
-			System.out.println("users (Email: '" + user.getEmail() + "') fields was change! :" + "new email= '"
+			logger.info("users (Email: '" + user.getEmail() + "') fields was change! :" + "new email= '"
 					+ user.getEmail() + "'," + "new password= '" + user.getPassword() + "'," + " new role= '"
 					+ user.getRole() + "', " + "new isBaned= '" + user.getIsBaned() + "' ;");
 		} catch (SQLException e) {
@@ -476,7 +478,7 @@ public class UserDaoImpl implements UserDao {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 
 			} catch (SQLException e) {
 

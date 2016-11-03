@@ -8,12 +8,14 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.periodicals.dao.BucketDao;
 import com.periodicals.models.Bucket;
 import com.periodicals.util.ConnectionUtil;
 
 public class BucketDaoImpl implements BucketDao {
-
+	private final static Logger logger = Logger.getLogger(BucketDaoImpl.class); 
 	final static String GET_BUCKET_BY_ID = "select * from bucket where id=?;";
 	final static String GET_ALL_BUCKETS = "select * from bucket;";
 	final static String DELETE_BUCKET_BY_ID = "delete  from bucket where id=?;";
@@ -23,7 +25,7 @@ public class BucketDaoImpl implements BucketDao {
 
 	public Bucket getById(int id) {
 		Connection connection = ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 		Bucket bucket = null;
 		ResultSet resSet = null;
@@ -45,7 +47,7 @@ public class BucketDaoImpl implements BucketDao {
 				resSet.close();
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -56,7 +58,7 @@ public class BucketDaoImpl implements BucketDao {
 	public List<Bucket> getAll() {
 
 		Connection connection = ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		List<Bucket> list = new ArrayList<Bucket>();
 		PreparedStatement statement = null;
 		ResultSet resSet = null;
@@ -79,7 +81,7 @@ public class BucketDaoImpl implements BucketDao {
 				resSet.close();
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -89,20 +91,20 @@ public class BucketDaoImpl implements BucketDao {
 
 	public void delete(Bucket bucket) {
 		Connection connection = ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 		try {
 			statement = (PreparedStatement) connection.prepareStatement(DELETE_BUCKET_BY_ID);
 			statement.setInt(1, bucket.getId());
 			statement.executeUpdate();
-			System.out.println(" bucket with id: '" + bucket.getId() + "' was deleted!");
+			logger.info(" bucket with id: '" + bucket.getId() + "' was deleted!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -111,20 +113,20 @@ public class BucketDaoImpl implements BucketDao {
 
 	public void delete(Integer bucketId) {
 		Connection connection = ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 		try {
 			statement = (PreparedStatement) connection.prepareStatement(DELETE_BUCKET_BY_ID);
 			statement.setInt(1, bucketId);
 			statement.executeUpdate();
-			System.out.println(" bucket with id: '" + bucketId + "' was deleted!");
+			logger.info(" bucket with id: '" + bucketId + "' was deleted!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -133,7 +135,7 @@ public class BucketDaoImpl implements BucketDao {
 
 	public void create(Integer userId, Integer periodicalId, Timestamp date) {
 		Connection connection = ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 		try {
 			statement = (PreparedStatement) connection.prepareStatement(CREATE_BUCKET);
@@ -141,7 +143,7 @@ public class BucketDaoImpl implements BucketDao {
 			statement.setInt(2, periodicalId);
 			statement.setTimestamp(3, date);
 			statement.execute();
-			System.out.println(" bucket with user_id= '" + userId + "', periodical_id= '" + periodicalId
+			logger.info(" bucket with user_id= '" + userId + "', periodical_id= '" + periodicalId
 					+ "',  operation date = '" + date + "' was created!");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -149,7 +151,7 @@ public class BucketDaoImpl implements BucketDao {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -158,7 +160,7 @@ public class BucketDaoImpl implements BucketDao {
 
 	public void updateByOneField(Bucket bucket) {
 		Connection connection = ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 		try {
 			statement = (PreparedStatement) connection.prepareStatement(UPDATE_BUCKET_BY_ID);
@@ -166,7 +168,7 @@ public class BucketDaoImpl implements BucketDao {
 			statement.setInt(2, bucket.getPeriodical_id());
 			statement.setInt(3, bucket.getId());
 			statement.executeUpdate();
-			System.out.println(" bucket id ='" + bucket.getId() + "' was updated!,  new user_id= '"
+			logger.info(" bucket id ='" + bucket.getId() + "' was updated!,  new user_id= '"
 					+ bucket.getUser_id() + "', new periodical_id= '" + bucket.getPeriodical_id()
 					+ "', new operation date = '" + bucket.getDate() + "'.");
 		} catch (SQLException e) {
@@ -175,7 +177,7 @@ public class BucketDaoImpl implements BucketDao {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 
 				e.printStackTrace();
@@ -185,7 +187,7 @@ public class BucketDaoImpl implements BucketDao {
 
 	public void create(Bucket bucket) {
 		Connection connection = ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 		try {
 			statement = (PreparedStatement) connection.prepareStatement(CREATE_BUCKET);
@@ -194,7 +196,7 @@ public class BucketDaoImpl implements BucketDao {
 			statement.setTimestamp(3, bucket.getDate());
 
 			statement.execute();
-			System.out.println(" bucket with user_id= '" + bucket.getUser_id() + "', periodical_id= '"
+			logger.info(" bucket with user_id= '" + bucket.getUser_id() + "', periodical_id= '"
 					+ bucket.getPeriodical_id() + "',  operation date = '" + bucket.getDate() + "' was created!");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -202,7 +204,7 @@ public class BucketDaoImpl implements BucketDao {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -211,20 +213,20 @@ public class BucketDaoImpl implements BucketDao {
 
 	public void setIsPaiedTrue(Integer bucketId) {
 		Connection connection = ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 		try {
 			statement = (PreparedStatement) connection.prepareStatement(SET_ISPAID_TRUE_BY_ID);
 			statement.setInt(1, bucketId);
 			statement.executeUpdate();
-			System.out.println(" buckets field 'ispaid' with id= '" + bucketId + "' was change on true!");
+			logger.info(" buckets field 'ispaid' with id= '" + bucketId + "' was change on true!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

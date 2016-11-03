@@ -7,7 +7,7 @@ import com.periodicals.models.User;
 public interface UserDao extends ItemDao<User>{
 	
 	public Integer getIdByEmail(String mail);
-	public User getByEmail(String email) throws SQLException;
+	public User getUserByEmail(String email) throws SQLException;
 	public void updateAllFieldsUserById(User user, Integer id);
 	public void updateEmailAndPasswordById(User user, Integer id);
 	public void updateFirstNameByEmail(String firstName, String email);

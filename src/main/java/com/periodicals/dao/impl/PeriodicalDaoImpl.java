@@ -7,11 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.periodicals.dao.PeriodicalDao;
 import com.periodicals.models.Periodical;
 import com.periodicals.util.ConnectionUtil;
 
 public class PeriodicalDaoImpl implements PeriodicalDao {
+	private final static Logger logger = Logger.getLogger(PeriodicalDaoImpl.class); 
 	final static String GET_PERIODICAL_BY_ID = "select * from periodical where id=?;";
 	final static String GET_ALL_PERIODICALS = "select * from periodical; ";
 	final static String UPDATE_PERIODICAL_BY_TITLE = " update periodical set price = ?,isAdded= ?, isPaided=?,discription= ? where title=?; ";
@@ -22,7 +25,7 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 
 	public Periodical getById(int id) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 		Periodical periodical = null;
 		ResultSet resSet = null;
@@ -46,7 +49,7 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 					resSet.close();
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -56,7 +59,7 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 
 	public List<Periodical> getAll() {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 		List<Periodical> list = new ArrayList<Periodical>();
 		ResultSet resSet = null;
@@ -81,7 +84,7 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 					resSet.close();
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -91,7 +94,7 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 
 	public void updateByOneField(Periodical periodical) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 		try {
 			statement = (PreparedStatement) connection.prepareStatement(UPDATE_PERIODICAL_BY_TITLE);
@@ -101,7 +104,7 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 			statement.setString(4, periodical.getDiscription());
 			statement.setString(5, periodical.getTitle());
 			statement.executeUpdate();
-			System.out.println("Periodical : " + "title= '" + periodical.getTitle() + "' was updated! " + ", new price="
+			logger.info("Periodical : " + "title= '" + periodical.getTitle() + "' was updated! " + ", new price="
 					+ "'" + periodical.getPrice() + "'" + ", new discription=" + "'" + periodical.getDiscription() + "'"
 					+ ", new isAdded=" + "'" + periodical.getIsAdded() + "'" + ", new isPaided= " + "'"
 					+ periodical.getIsPaided() + "'.");
@@ -111,7 +114,7 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 
 				e.printStackTrace();
@@ -121,7 +124,7 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 
 	public void create(Periodical periodical) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 
 		try {
@@ -133,7 +136,7 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 			statement.setBoolean(5, periodical.getIsPaided());
 
 			statement.execute();
-			System.out.println("Periodical : " + "title= " + "'" + periodical.getTitle() + "'" + ", price=" + "'"
+			logger.info("Periodical : " + "title= " + "'" + periodical.getTitle() + "'" + ", price=" + "'"
 					+ periodical.getPrice() + "'" + ", discription=" + "'" + periodical.getDiscription() + "'"
 					+ ", isAdded=" + "'" + periodical.getIsAdded() + "'" + ", isPaided= " + "'"
 					+ periodical.getIsPaided() + "' created!.");
@@ -144,7 +147,7 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 
 				e.printStackTrace();
@@ -154,21 +157,21 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 
 	public void deleteByTitle(String title) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 
 		PreparedStatement statement = null;
 		try {
 			statement = (PreparedStatement) connection.prepareStatement(DELETE_PERIODICAL_BY_TITLE);
 			statement.setString(1, title);
 			statement.executeUpdate();
-			System.out.println("All periodicals with title= '" + title + "' was deleted!");
+			logger.info("All periodicals with title= '" + title + "' was deleted!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -177,20 +180,20 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 
 	public void delete(Periodical periodical) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 		try {
 			statement = (PreparedStatement) connection.prepareStatement(DELETE_PERIODICAL_BY_TITLE);
 			statement.setString(1, periodical.getTitle());
 			statement.executeUpdate();
-			System.out.println("All periodicals with title= '" + periodical.getTitle() + "' was deleted!");
+			logger.info("All periodicals with title= '" + periodical.getTitle() + "' was deleted!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 
 				e.printStackTrace();
@@ -200,7 +203,7 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 
 	public Integer getIdByTitle(String title) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 		Periodical periodical = new Periodical();
 		ResultSet resSet = null;
@@ -222,7 +225,7 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 					resSet.close();
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 
 				e.printStackTrace();
@@ -234,7 +237,7 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 
 	public Periodical getPeriodicalByTitle(String title) {
 		Connection connection = (Connection) ConnectionUtil.getConnection();
-		System.out.println("Connection succsessfull!");
+		logger.info("Connection succsessfull!");
 		PreparedStatement statement = null;
 		Periodical periodical = null;
 		ResultSet resSet = null;
@@ -259,7 +262,7 @@ public class PeriodicalDaoImpl implements PeriodicalDao {
 					resSet.close();
 				statement.close();
 				connection.close();
-				System.out.println("Connection is closed!");
+				logger.info("Connection is closed!");
 			} catch (SQLException e) {
 
 				e.printStackTrace();

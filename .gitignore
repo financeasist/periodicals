@@ -1,5 +1,4 @@
 *.class
-*.settings
 *.gitignore
 
 # Mobile Tools for Java (J2ME)
@@ -14,3 +13,5 @@
 hs_err_pid*
 /target/
 
+
+/.settings/

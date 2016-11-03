@@ -13,7 +13,7 @@ public class MainForUser {
 	UserDaoImpl userDao = new UserDaoImpl();
 	User user = new User("sadg@vcb.kom","hgfdfgh","Roman","null",Roles.GUEST,false);
 	//userDao.create(user);
-	userDao.deleteByEmail("sadhfj@vbcb.kom");
+//	userDao.deleteByEmail("sadhfj@vbcb.kom");
 	
 //	System.out.println(userDao.getByID(2));
 //	userDao.update_EmailANDPassword_ByID(user,2);
@@ -21,6 +21,6 @@ public class MainForUser {
 //	userDao.update_IsBanned_ByEmail(true, "sadhfj@vbcb.kom");
 //	userDao.update_Role_ByEmail(user);
 //	userDao.update_firstName_ByEmail(user);
-//	userDao.updateByOnefield(user);
+	userDao.updateByOneField(user);
 	}
 }

@@ -13,22 +13,39 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	
 	<build>
-		<resources>
-			<resource>
-				<directory>resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat8-maven-plugin</artifactId>
+				<version>8</version>
+			</plugin>
+		</plugins>
 	</build>
 
 	<dependencies>
-	<!-- for jdbc -->
+		<!-- for jdbc -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.39</version>
 		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.2</version>
+			<scope>provided</scope>
+		</dependency>
+		
 		
 		<dependency>
 			<groupId>junit</groupId>
@@ -36,13 +53,12 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
-		
-	<dependency>
-   		 <groupId>log4j</groupId>
-   		 <artifactId>log4j</artifactId>
-   		 <version>1.2.17</version>
-	</dependency>
-		
-		
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+
 	</dependencies>
 </project>

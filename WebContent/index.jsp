@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>This is my index.jsp!</title>
 </head>
 <body>
 	<h6>Inside index.jsp!</h6>

@@ -3,12 +3,15 @@ package com.periodicals.models;
 import com.periodicals.models.enums.Roles;
 
 public class User extends Model {
-	private String email; // email is UNIQUE in DB!;
-	private String password;
+
 	private String firstName;
 	private String lastName;
+	private String email; // email is UNIQUE in DB!;
+	private String userName;
+	private String password;
 	private Roles role;
 	private Boolean isBanned;
+
 
 	public User() {
 		super();
@@ -18,7 +21,8 @@ public class User extends Model {
 		super(id);
 	}
 
-	public User(String email, String password, String firstName, String lastName, Roles role, Boolean isBaned) {
+	public User(String email, String password, String firstName, String lastName, String userName, Roles role,
+			Boolean isBaned) {
 
 		this.email = email;
 		this.password = password;
@@ -26,6 +30,7 @@ public class User extends Model {
 		this.lastName = lastName;
 		this.role = role;
 		this.isBanned = isBaned;
+		this.userName = userName;
 	}
 
 	public String getEmail() {
@@ -77,6 +82,14 @@ public class User extends Model {
 			}
 		}
 		return null;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public Boolean getIsBaned() {

@@ -14,6 +14,7 @@
  </servlet-mapping>
  
   <display-name>WebCalculator</display-name>
+  
    <welcome-file-list>
   	<!-- 	<welcome-file>inde.html</welcome-file> -->
  	 	<welcome-file>index.jsp</welcome-file> 

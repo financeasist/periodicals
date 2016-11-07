@@ -12,7 +12,9 @@
         session.setAttribute("userid", userid);
         //out.println("welcome " + userid);
         //out.println("<a href='logout.jsp'>Log out</a>");
-        response.sendRedirect("success.jsp");
+       // request.getRequestDispatcher("/success.jsp").forward(request,response);
+        response.sendRedirect(request.getSession().getServletContext().getRealPath("/success.jsp"));
+        //response.sendRedirect("success.jsp");
     } else {
         out.println("Invalid password <a href='index.jsp'>try again</a>");
     }
